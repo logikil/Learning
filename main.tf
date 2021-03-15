@@ -73,5 +73,4 @@ resource "azurerm_linux_virtual_machine" "learning" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-  #testing push
 }
