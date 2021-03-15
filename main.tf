@@ -28,6 +28,7 @@ resource "azurerm_virtual_network" "learning" {
   address_space       = ["10.0.0.0/16"]
 }
 
+#Create a subnet within the virtual network
 resource "azurerm_subnet" "learning" {
   name                 = "snet-internal"
   resource_group_name  = azurerm_resource_group.learning.name
@@ -35,6 +36,7 @@ resource "azurerm_subnet" "learning" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
+#Create vm nic and internal IP configuration
 resource "azurerm_network_interface" "learning" {
   name                = "nic-machine"
   location            = azurerm_resource_group.learning.location
@@ -47,6 +49,7 @@ resource "azurerm_network_interface" "learning" {
   }
 }
 
+#Create virtual machine
 resource "azurerm_linux_virtual_machine" "learning" {
   name                = "vm-machine"
   resource_group_name = azurerm_resource_group.learning.name
