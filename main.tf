@@ -20,8 +20,8 @@ resource "azurerm_resource_group" "learning" {
   location = "East US 2"
 
   tags = {
-    Environment = "Terraform Getting Started"
-    Team = "Devops"
+    "Environment" = "Terraform Getting Started"
+    "Team" = "DevOps"
   }
 }
 
