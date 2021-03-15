@@ -18,6 +18,11 @@ provider "azurerm" {
 resource "azurerm_resource_group" "learning" {
   name     = "rg-learning"
   location = "East US 2"
+
+  tags = {
+    Environment = "Terraform Getting Started"
+    Team = "Devops"
+  }
 }
 
 # Create a virtual network within the resource group
