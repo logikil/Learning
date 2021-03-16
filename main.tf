@@ -41,6 +41,34 @@ resource "azurerm_subnet" "learning" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
+#Create a public IP
+resource "azurerm_public_ip" "learning" {
+  name                = "public-ip"
+  location            = azurerm_resource_group.learning.location
+  resource_group_name = azurerm_resource_group.learning.name
+  allocation_method   = "Static"
+}
+
+#Create Network Security Group and Rule
+resource "azurerm_network_security_group" "learning" {
+  name                = "vnet-nsg"
+  location            = azurerm_resource_group.learning.location
+  resource_group_name = azurerm_resource_group.learning.name
+
+  security_rule = [ {
+    access = "Allow"
+    description = "Allow SSH Inbound"
+    destination_address_prefix = "*"
+    destination_port_range = "22"
+    direction = "Inbound"
+    name = "SSH"
+    priority = 1001
+    protocol = "Tcp"
+    source_address_prefix = "*"
+    source_port_range = "*"
+  } ]
+}
+
 #Create vm nic and internal IP configuration
 resource "azurerm_network_interface" "learning" {
   name                = "nic-machine"
@@ -51,6 +79,7 @@ resource "azurerm_network_interface" "learning" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.learning.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.learning.id
   }
 }
 
@@ -71,8 +100,9 @@ resource "azurerm_linux_virtual_machine" "learning" {
   }
 
   os_disk {
+    name                 = "vm-osdisk"
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = "Premium_LRS"
   }
 
   source_image_reference {
@@ -81,4 +111,12 @@ resource "azurerm_linux_virtual_machine" "learning" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+}
+
+data "azurerm_public_ip" "IP" {
+  name = azurerm_public_ip.learning.name
+  resource_group_name = azurerm_linux_virtual_machine.learning.resource_group_name
+  depends_on = [
+    azurerm_linux_virtual_machine.learning
+  ]
 }
