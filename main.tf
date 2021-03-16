@@ -94,7 +94,7 @@ resource "azurerm_linux_virtual_machine" "learning" {
   name                = "vm-machine"
   resource_group_name = azurerm_resource_group.learning.name
   location            = azurerm_resource_group.learning.location
-  size                = "Standard_F2"
+  size                = "Standard_DS1_v2"
   admin_username      = "azureuser"
   network_interface_ids = [
     azurerm_network_interface.learning.id,
