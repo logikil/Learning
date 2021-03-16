@@ -49,30 +49,26 @@ resource "azurerm_public_ip" "learning" {
   allocation_method   = "Static"
 }
 
-#Create Network Security Group and Rule
+#Create Network Security Group
 resource "azurerm_network_security_group" "learning" {
   name                = "vnet-nsg"
   location            = azurerm_resource_group.learning.location
   resource_group_name = azurerm_resource_group.learning.name
+}
 
-  security_rule = [ {
-    access = "Allow"
-    description = "Allow SSH Inbound"
-    destination_address_prefixes = [""]
-    destination_address_prefix = "*"
-    destination_application_security_group_ids = [ "" ]
-    destination_port_ranges = [""]
-    destination_port_range = "22"
-    direction = "Inbound"
-    name = "SSH"
-    priority = 1001
-    protocol = "Tcp"
-    source_address_prefixes = [""]
-    source_address_prefix = "*"
-    source_application_security_group_ids = [ "" ]
-    source_port_ranges = [""]
-    source_port_range = "*"
-  } ]
+#Create Network Security Rule
+resource "azurerm_network_security_rule" "learning" {
+  name = "SSH"
+  priority = "1001"
+  direction = "Inbound"
+  access = "Allow"
+  protocol = "Tcp"
+  source_port_range = "*"
+  source_address_prefix = "*"
+  destination_port_range = "22"
+  destination_address_prefix = "*"
+  resource_group_name = azurerm_resource_group.learning.name
+  network_security_group_name = azurerm_
 }
 
 #Create vm nic and internal IP configuration
