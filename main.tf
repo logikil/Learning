@@ -119,3 +119,7 @@ data "azurerm_public_ip" "IP" {
     azurerm_linux_virtual_machine.learning
   ]
 }
+
+output "public_ip_address" {
+  value = data.azurerm_public_ip.IP.ip_address
+}
