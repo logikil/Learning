@@ -9,6 +9,14 @@ terraform {
   }
 }
 
+# Attach to backend to create remote state
+backend "remote" {
+  organization = "BoricuaConsulting"
+  workspaces{
+    name = "Learning-Workspace"
+  }
+}
+
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
