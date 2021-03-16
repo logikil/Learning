@@ -58,20 +58,20 @@ resource "azurerm_network_security_group" "learning" {
   security_rule = [ {
     access = "Allow"
     description = "Allow SSH Inbound"
-    destination_address_prefixes = ["*"]
-    destination_address_prefix = ""
-    destination_application_security_group_ids = [ "*" ]
-    destination_port_ranges = ["22"]
-    destination_port_range = ""
+    destination_address_prefixes = [""]
+    destination_address_prefix = "*"
+    destination_application_security_group_ids = [ "" ]
+    destination_port_ranges = [""]
+    destination_port_range = "22"
     direction = "Inbound"
     name = "SSH"
     priority = 1001
     protocol = "Tcp"
-    source_address_prefixes = ["*"]
-    source_address_prefix = ""
-    source_application_security_group_ids = [ "*" ]
-    source_port_ranges = ["*"]
-    source_port_range = ""
+    source_address_prefixes = [""]
+    source_address_prefix = "*"
+    source_application_security_group_ids = [ "" ]
+    source_port_ranges = [""]
+    source_port_range = "*"
   } ]
 }
 
