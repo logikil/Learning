@@ -17,12 +17,9 @@ provider "azurerm" {
 # Create a resource group
 resource "azurerm_resource_group" "learning" {
   name     = "rg-learning"
-  location = "East US 2"
+  location = var.location
 
-  tags = {
-    "Environment" = "Terraform Getting Started"
-    "Team" = "DevOps"
-  }
+  tags = var.tags
 }
 
 # Create a virtual network within the resource group
@@ -110,7 +107,7 @@ resource "azurerm_linux_virtual_machine" "learning" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    sku       = lookup(var.sku, var.location)
     version   = "latest"
   }
 }
