@@ -7,13 +7,12 @@ terraform {
       version = ">=2.51.0"
     }
   }
-}
 
-# Attach to backend to create remote state
-backend "remote" {
-  organization = "BoricuaConsulting"
-  workspaces{
-    name = "Learning-Workspace"
+  backend "remote" {
+    organization = "BoricuaConsulting"
+    workspaces{
+      name = "Learning-Workspace"
+    }
   }
 }
 
