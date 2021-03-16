@@ -9,6 +9,7 @@ terraform {
   }
 
   backend "remote" {
+    hostname = "app.terraform.io"
     organization = "BoricuaConsulting"
     workspaces{
       name = "Learning-Workspace"
