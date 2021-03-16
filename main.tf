@@ -7,14 +7,6 @@ terraform {
       version = ">=2.51.0"
     }
   }
-
-  backend "remote" {
-    organization = "BoricuaConsulting"
-    
-    workspaces {
-      name = "Learning-Workspace"
-    }
-  }
 }
 
 # Configure the Microsoft Azure Provider
