@@ -16,7 +16,7 @@ provider "azurerm" {
 
 # Create a resource group
 resource "azurerm_resource_group" "learning" {
-  name     = "rg-learning"
+  name     = "${var.prefix}rg"
   location = var.location
 
   tags = var.tags
@@ -24,7 +24,7 @@ resource "azurerm_resource_group" "learning" {
 
 # Create a virtual network within the resource group
 resource "azurerm_virtual_network" "learning" {
-  name                = "vnet-network"
+  name                = "${var.prefix}vnet"
   resource_group_name = azurerm_resource_group.learning.name
   location            = azurerm_resource_group.learning.location
   address_space       = ["10.0.0.0/16"]
@@ -32,7 +32,7 @@ resource "azurerm_virtual_network" "learning" {
 
 #Create a subnet within the virtual network
 resource "azurerm_subnet" "learning" {
-  name                 = "snet-internal"
+  name                 = "${var.prefix}snet"
   resource_group_name  = azurerm_resource_group.learning.name
   virtual_network_name = azurerm_virtual_network.learning.name
   address_prefixes     = ["10.0.1.0/24"]
@@ -40,7 +40,7 @@ resource "azurerm_subnet" "learning" {
 
 #Create a public IP
 resource "azurerm_public_ip" "learning" {
-  name                = "public-ip"
+  name                = "${var.prefix}public-ip"
   location            = azurerm_resource_group.learning.location
   resource_group_name = azurerm_resource_group.learning.name
   allocation_method   = "Static"
@@ -48,14 +48,14 @@ resource "azurerm_public_ip" "learning" {
 
 #Create Network Security Group
 resource "azurerm_network_security_group" "learning" {
-  name                = "vnet-nsg"
+  name                = "${var.prefix}nsg"
   location            = azurerm_resource_group.learning.location
   resource_group_name = azurerm_resource_group.learning.name
 }
 
 #Create Network Security Rule
 resource "azurerm_network_security_rule" "learning" {
-  name = "SSH"
+  name = "Allow SSH"
   priority = "1001"
   direction = "Inbound"
   access = "Allow"
@@ -70,7 +70,7 @@ resource "azurerm_network_security_rule" "learning" {
 
 #Create vm nic and internal IP configuration
 resource "azurerm_network_interface" "learning" {
-  name                = "nic-machine"
+  name                = "${var.prefix}nic"
   location            = azurerm_resource_group.learning.location
   resource_group_name = azurerm_resource_group.learning.name
 
@@ -84,7 +84,7 @@ resource "azurerm_network_interface" "learning" {
 
 #Create virtual machine
 resource "azurerm_linux_virtual_machine" "learning" {
-  name                = "vm-machine"
+  name                = "${var.prefix}vm"
   resource_group_name = azurerm_resource_group.learning.name
   location            = azurerm_resource_group.learning.location
   size                = "Standard_DS1_v2"

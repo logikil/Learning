@@ -1,5 +1,7 @@
 variable "location" {}
 
+variable "prefix" {}
+
 variable "tags" {
   type = map
 
